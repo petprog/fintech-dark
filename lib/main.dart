@@ -5,7 +5,7 @@ import 'core/core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
+  await configureDependencies();
   runApp(const FintechDarkApp());
 }
 

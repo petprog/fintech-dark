@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import '../core.dart';
 
 abstract final class AppTextStyles {
-  static const String _fontFamily = 'Roboto';
+  static const String _fontFamily = AppConstants.fontFamily;
 
   static const TextStyle displayLarge = TextStyle(
     fontFamily: _fontFamily,

@@ -1,29 +1,57 @@
 import 'package:dio/dio.dart';
-import '../constants/api_constants.dart';
 
 class DioClient {
   final Dio dio;
 
-  DioClient._(this.dio);
+  DioClient(this.dio);
 
-  factory DioClient.create() {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: const {'Content-Type': 'application/json'},
-      ),
+  Future<Response<T>> get<T>(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return dio.get<T>(path, queryParameters: queryParameters, options: options);
+  }
+
+  Future<Response<T>> post<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return dio.post<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
     );
+  }
 
-    dio.interceptors.add(
-      LogInterceptor(
-        requestBody: false,
-        responseBody: false,
-        logPrint: (_) {}, // no-op in production; swap for a real logger
-      ),
+  Future<Response<T>> put<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return dio.put<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
     );
+  }
 
-    return DioClient._(dio);
+  Future<Response<T>> delete<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    return dio.delete<T>(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+    );
   }
 }

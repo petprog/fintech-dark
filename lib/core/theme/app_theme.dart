@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
+import '../core.dart';
 
 abstract final class AppTheme {
   static ThemeData get dark {
@@ -8,7 +7,7 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: 'Roboto',
+      fontFamily: AppConstants.fontFamily,
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.primary,

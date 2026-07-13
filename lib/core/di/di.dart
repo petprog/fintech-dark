@@ -1,1 +1,2 @@
-export 'injection_container.dart';
+export 'injection.dart';
+export 'injection.config.dart';

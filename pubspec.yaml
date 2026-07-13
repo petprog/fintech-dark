@@ -1,17 +1,18 @@
 name: fintech_dark
+
 description: "A new Flutter project."
 
-publish_to: 'none' 
-
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.5
+  sdk: ">=3.11.5 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.8
 
   # State management
@@ -19,18 +20,18 @@ dependencies:
   equatable: ^2.0.5
 
   # Dependency Injection
-  get_it: ^7.7.0
+  get_it: ^8.0.3
 
-  # Networking (abstraction layer; mocked in this assessment)
+  # Networking
   dio: ^5.5.0+1
 
   # Local persistence
   shared_preferences: ^2.2.3
 
-  # Functional error handling
+  # Functional programming
   dartz: ^0.10.1
 
-  # Charts (statistics card sparkline)
+  # Charts
   fl_chart: ^0.68.0
 
   # Formatting
@@ -39,14 +40,71 @@ dependencies:
   # Navigation
   go_router: ^16.0.0
 
+  # SVG support
+  flutter_svg: ^2.0.10+1
+
+  #DI
+  injectable: ^3.0.0
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_lints: ^4.0.0
   bloc_test: ^9.1.7
   mocktail: ^1.0.4
+  build_runner: ^2.10.0
+  freezed: ^3.2.3
+  json_serializable: ^6.11.1
+  injectable_generator: ^3.0.2
+
 
 flutter:
+
   uses-material-design: true
+
+
   assets:
-    - assets/images/
+
+    # SVG
+    - assets/svg/icons/
+    - assets/svg/logos/
+
+    # Images
+    - assets/images/avatars/
+    - assets/images/products/
+    - assets/images/backgrounds/
+    - assets/images/onboarding/
+
+    # Animations
+    - assets/animations/lottie/
+    - assets/animations/rive/
+
+    # Branding
+    - assets/branding/
+
+
+  fonts:
+
+    - family: Arimo
+      fonts:
+
+        # Regular
+        - asset: assets/fonts/Arimo/Arimo-Regular.ttf
+          weight: 400
+
+        # Italic
+        - asset: assets/fonts/Arimo/Arimo-Italic.ttf
+          weight: 400
+          style: italic
+
+        # Bold
+        - asset: assets/fonts/Arimo/Arimo-Bold.ttf
+          weight: 700
+
+        # Bold Italic
+        - asset: assets/fonts/Arimo/Arimo-BoldItalic.ttf
+          weight: 700
+          style: italic
