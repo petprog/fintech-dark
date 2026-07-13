@@ -77,6 +77,7 @@ flutter:
     - assets/images/products/
     - assets/images/backgrounds/
     - assets/images/onboarding/
+    - assets/images/products/chip
 
     # Animations
     - assets/animations/lottie/
@@ -86,25 +87,41 @@ flutter:
     - assets/branding/
 
 
-  fonts:
+fonts:
+  - family: Arimo
+    fonts:
+      # Regular 400
+      - asset: assets/fonts/Arimo/Arimo-Regular.ttf
+        weight: 400
 
-    - family: Arimo
-      fonts:
+      # Regular Italic 400
+      - asset: assets/fonts/Arimo/Arimo-Italic.ttf
+        weight: 400
+        style: italic
 
-        # Regular
-        - asset: assets/fonts/Arimo/Arimo-Regular.ttf
-          weight: 400
+      # Medium 500
+      - asset: assets/fonts/Arimo/Arimo-Medium.ttf
+        weight: 500
 
-        # Italic
-        - asset: assets/fonts/Arimo/Arimo-Italic.ttf
-          weight: 400
-          style: italic
+      # Medium Italic 500
+      - asset: assets/fonts/Arimo/Arimo-MediumItalic.ttf
+        weight: 500
+        style: italic
 
-        # Bold
-        - asset: assets/fonts/Arimo/Arimo-Bold.ttf
-          weight: 700
+      # SemiBold 600
+      - asset: assets/fonts/Arimo/Arimo-SemiBold.ttf
+        weight: 600
 
-        # Bold Italic
-        - asset: assets/fonts/Arimo/Arimo-BoldItalic.ttf
-          weight: 700
-          style: italic
+      # SemiBold Italic 600
+      - asset: assets/fonts/Arimo/Arimo-SemiBoldItalic.ttf
+        weight: 600
+        style: italic
+
+      # Bold 700
+      - asset: assets/fonts/Arimo/Arimo-Bold.ttf
+        weight: 700
+
+      # Bold Italic 700
+      - asset: assets/fonts/Arimo/Arimo-BoldItalic.ttf
+        weight: 700
+        style: italic
