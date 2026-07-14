@@ -49,8 +49,8 @@ abstract final class AppTextStyles {
 
   static const TextStyle button = TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
     color: AppColors.textOnPrimary,
   );
 

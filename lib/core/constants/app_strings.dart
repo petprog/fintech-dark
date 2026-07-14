@@ -1,1 +1,42 @@
-abstract final class AppStrings {}
+abstract final class AppStrings {
+  static const String welcomeMessage = "Welcome";
+  static const String totalBalance = "Total Balance";
+  static const String addCash = "Add Cash";
+  static const String sendMoney = "Send Money";
+  static const String billPay = "Bill Pay";
+  static const String donations = "Donations";
+  static const String deposit = "Deposit";
+  static const String more = "More";
+  static const String transactionHistory = "Transaction History";
+  static const String seeAll = "See all";
+  static const String profileSettings = "Profile Settings";
+  static const String eStatement = "E-Statement";
+  static const String creditCard = "Credit Card";
+  static const String settings = "Settings";
+  static const String notification = "Notification";
+  static const String appNotification = "App Notification";
+  static const String language = "Language";
+  static const String country = "Country";
+  static const String logOut = "Log Out";
+  static const String yourCard = "Your Card";
+  static const String physicalCard = "Physical Card";
+  static const String virtualCard = "Virtual Card";
+  static const String cardHolder = "Card Holder";
+  static const String valid = "Valid";
+  static const String cvv = "CVV";
+  static const String freezeCard = "Freeze Card";
+  static const String reveal = "Reveal";
+  static const String cardSettings = "Card Settings";
+  static const String changePin = "Change Pin";
+  static const String qrPayment = "QR Payment";
+  static const String onlineShopping = "Online Shopping";
+  static const String cardTransactions = "Card Transactions";
+  static const String tapPay = "Tap Pay";
+  static const String cardTransaction = "Card Transaction";
+  static const String totalSpend = "Total Spend";
+  static const String myActivity = "My Activity";
+  static const String recentTransfer = "Recent Transfer";
+  static const String totalSpending = "Total Spending";
+  static const String uxUiDesigner = "UX/UI Designer";
+  static const String profile = "Profile";
+}

@@ -9,7 +9,8 @@ abstract final class AppColors {
   static const Color divider = Color(0xFF2A2A30);
 
   // Brand
-  static const Color primary = Color(0xFF3D7BFF);
+  static const Color primary = Color(0xFF0065FF);
+  static const Color primaryLight = Color(0xFF6BA6FF);
   static const Color primaryDark = Color(0xFF2557D6);
   static const Color primaryGradientStart = Color(0xFF3D7BFF);
   static const Color primaryGradientEnd = Color(0xFF6E42FF);
@@ -22,7 +23,7 @@ abstract final class AppColors {
 
   // Semantic
   static const Color success = Color(0xFF34C979);
-  static const Color error = Color(0xFFFF5A5F);
+  static const Color error = Color(0xFFC40C00);
   static const Color warning = Color(0xFFFFB020);
 
   // Chart

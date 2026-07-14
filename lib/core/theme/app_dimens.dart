@@ -1,4 +1,5 @@
 abstract final class AppDimens {
+  static const double spaceXXXS = 2;
   static const double spaceXXS = 4;
   static const double spaceXS = 8;
   static const double spaceS = 12;
@@ -7,6 +8,7 @@ abstract final class AppDimens {
   static const double spaceXL = 24;
   static const double spaceXXL = 32;
 
+  static const double radiusXS = 4;
   static const double radiusS = 8;
   static const double radiusM = 12;
   static const double radiusL = 16;

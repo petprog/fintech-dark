@@ -17,10 +17,26 @@ abstract final class AppTheme {
       textTheme: const TextTheme(
         displayLarge: AppTextStyles.displayLarge,
         headlineSmall: AppTextStyles.headline,
+        headlineMedium: AppTextStyles.headline,
         titleMedium: AppTextStyles.title,
+        titleSmall: AppTextStyles.title,
         bodyMedium: AppTextStyles.body,
         bodySmall: AppTextStyles.bodySecondary,
         labelSmall: AppTextStyles.caption,
+      ),
+      switchTheme: SwitchThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          return AppColors.textPrimary;
+        }),
+        thumbIcon: WidgetStateProperty.all(null),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const Color(0xFF0047B3);
+          }
+          return const Color(0xFF787880).withValues(alpha: .32);
+        }),
+        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.background,
@@ -33,9 +49,12 @@ abstract final class AppTheme {
           foregroundColor: AppColors.textOnPrimary,
           textStyle: AppTextStyles.button,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: AppDimens.spaceS,
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppDimens.radiusXS),
           ),
         ),
       ),

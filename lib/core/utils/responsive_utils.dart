@@ -14,7 +14,6 @@ abstract final class ResponsiveUtils {
   static bool isTablet(BuildContext context) =>
       deviceTypeOf(context) == DeviceType.tablet;
 
-  /// Horizontal page padding that grows slightly on larger surfaces.
   static double horizontalPadding(BuildContext context) {
     switch (deviceTypeOf(context)) {
       case DeviceType.smallPhone:
@@ -26,7 +25,6 @@ abstract final class ResponsiveUtils {
     }
   }
 
-  /// Number of columns for the quick-actions / card grid.
   static int gridColumns(BuildContext context) {
     switch (deviceTypeOf(context)) {
       case DeviceType.smallPhone:
@@ -38,8 +36,6 @@ abstract final class ResponsiveUtils {
     }
   }
 
-  /// Caps content width on tablets so the dashboard doesn't stretch edge
-  /// to edge on large surfaces.
   static double maxContentWidth(BuildContext context) =>
       isTablet(context) ? 720 : double.infinity;
 }
