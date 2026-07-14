@@ -1,17 +1,38 @@
-# fintech_dark
+# Fintech Dashboard Flutter Assessment
 
-A new Flutter project.
+A Flutter fintech dashboard application built as part of a technical assessment.
 
-## Getting Started
+## Demo
 
-This project is a starting point for a Flutter application.
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/af23d24f-0251-4c38-b03c-85fdb78d3b0a" 
+    alt="Fintech Dashboard Demo" 
+    width="350"
+  />
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- User dashboard
+- Balance overview
+- Recent transactions
+- Card management
+- Notifications
+- Profile management
+- Responsive UI support across different screen sizes
+- Smooth loading and state handling
+- Unit tested business logic
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech Stack
+
+- Flutter
+- Dart
+- BLoC (State Management)
+- Clean Architecture
+- Dependency Injection
+- Repository Pattern
+- Unit Testing
+- Mocktail for testing
+
+## Project Structure
