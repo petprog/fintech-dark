@@ -46,6 +46,11 @@ dependencies:
   #DI
   injectable: ^3.0.0
 
+  #Assets
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+
+  carousel_slider: ^5.0.0
 
 
 dev_dependencies:
@@ -74,10 +79,9 @@ flutter:
 
     # Images
     - assets/images/avatars/
-    - assets/images/products/
     - assets/images/backgrounds/
     - assets/images/onboarding/
-    - assets/images/products/chip
+    - assets/images/chip/
 
     # Animations
     - assets/animations/lottie/
