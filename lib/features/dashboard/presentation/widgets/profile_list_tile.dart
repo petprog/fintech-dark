@@ -65,7 +65,12 @@ class ProfileSwitchTile extends StatelessWidget {
       tileColor: AppColors.surfaceElevated,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       splashColor: AppColors.primary.withValues(alpha: 0.1),
-      leading: AppSvg(assetName: iconName, color: AppColors.primary, size: 20),
+      leading: CircularSvgIcon(
+        iconSize: 24,
+        assetName: iconName,
+        iconColor: AppColors.primary,
+        size: 40,
+      ),
       title: Text(
         label,
         style: AppTextStyles.body.copyWith(

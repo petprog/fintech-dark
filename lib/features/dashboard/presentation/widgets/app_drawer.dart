@@ -13,6 +13,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: MediaQuery.of(context).size.width * 0.8,
       backgroundColor: AppColors.surface,
       child: SafeArea(
         child: ListView(
@@ -211,20 +212,15 @@ class _DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-
       tileColor: AppColors.surfaceElevated,
-
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-
       splashColor: AppColors.primary.withValues(alpha: 0.1),
-
       leading: CircularSvgIcon(
         iconSize: 24,
         assetName: iconName,
         iconColor: AppColors.primary,
         size: 40,
       ),
-
       title: Text(
         label,
         style: AppTextStyles.body.copyWith(
@@ -232,9 +228,7 @@ class _DrawerItem extends StatelessWidget {
           color: AppColors.textPrimary,
         ),
       ),
-
       trailing: const AppSvg(assetName: AppAssets.chevronRight),
-
       onTap: onTap,
     );
   }
@@ -260,10 +254,11 @@ class _DrawerSwitchItem extends StatelessWidget {
       tileColor: AppColors.surfaceElevated,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       splashColor: AppColors.primary.withValues(alpha: 0.1),
-      leading: AppSvg(
+      leading: CircularSvgIcon(
+        iconSize: 24,
         assetName: iconName,
-        color: AppColors.textPrimary,
-        size: 20,
+        iconColor: AppColors.primary,
+        size: 40,
       ),
       title: Text(
         label,
