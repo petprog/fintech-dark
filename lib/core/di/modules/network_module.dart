@@ -5,7 +5,12 @@ import '../../core.dart';
 @module
 abstract class NetworkModule {
   @lazySingleton
-  Dio provideDio(AppConfig config) {
+  Dio provideDio(
+    AppConfig config,
+    AuthInterceptor authInterceptor,
+    ErrorInterceptor errorInterceptor,
+    DioLoggerInterceptor dioLoggerInterceptor,
+  ) {
     final dio = Dio(
       BaseOptions(
         baseUrl: config.baseUrl,
@@ -15,7 +20,11 @@ abstract class NetworkModule {
       ),
     );
 
-    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    dio.interceptors.addAll([
+      authInterceptor,
+      errorInterceptor,
+      dioLoggerInterceptor,
+    ]);
 
     return dio;
   }
