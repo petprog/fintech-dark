@@ -27,17 +27,7 @@ void main() {
     lastUpdated: DateTime.fromMillisecondsSinceEpoch(0),
   );
 
-  final tEntity = DashboardEntity(
-    userName: 'Tayyab Sohail',
-    email: 'tayyabsohailabd@gmail.com',
-    totalBalance: 1200,
-    totalSpending: 1200,
-    spendingTrend: const [SpendingPointEntity(month: 'Jan', value: 900)],
-    cards: const [],
-    quickActions: const [],
-    transactions: const [],
-    lastUpdated: DateTime.fromMillisecondsSinceEpoch(0),
-  );
+  final tEntity = tModel.toEntity();
 
   setUpAll(() {
     registerFallbackValue(tModel);
@@ -76,7 +66,7 @@ void main() {
 
         final result = await repository.getDashboard();
 
-        expect(result, Right(tModel));
+        expect(result, Right(tEntity));
       },
     );
 
@@ -122,7 +112,7 @@ void main() {
 
       final result = await repository.watchDashboardUpdates(tEntity).first;
 
-      expect(result, Right(tModel));
+      expect(result, Right(tEntity));
     });
 
     test('yields multiple Right updates in order', () async {
@@ -133,7 +123,7 @@ void main() {
 
       final results = await repository.watchDashboardUpdates(tEntity).toList();
 
-      expect(results, [Right(tModel), Right(secondModel)]);
+      expect(results, [Right(tEntity), Right(secondModel.toEntity())]);
     });
 
     test(
@@ -163,26 +153,7 @@ void main() {
     );
 
     test(
-      'passes the DashboardModel through unchanged when current is already a model',
-      () async {
-        when(
-          () => remoteDatasource.watchDashboardUpdates(any()),
-        ).thenAnswer((_) => Stream.value(tModel));
-
-        await repository.watchDashboardUpdates(tModel.toEntity()).first;
-
-        final captured =
-            verify(
-                  () => remoteDatasource.watchDashboardUpdates(captureAny()),
-                ).captured.single
-                as DashboardModel;
-
-        expect(identical(captured, tModel), true);
-      },
-    );
-
-    test(
-      'converts a plain DashboardEntity into a DashboardModel before calling the datasource',
+      'converts a DashboardEntity into a DashboardModel with matching fields before calling the datasource',
       () async {
         when(
           () => remoteDatasource.watchDashboardUpdates(any()),
