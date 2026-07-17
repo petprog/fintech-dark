@@ -39,7 +39,7 @@ class _CardCarouselState extends State<CardCarousel> {
             );
           },
           options: CarouselOptions(
-            height: 160,
+            height: 165,
             viewportFraction: 0.8,
             enlargeCenterPage: true,
             enlargeFactor: 0.2,

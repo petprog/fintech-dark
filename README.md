@@ -190,6 +190,9 @@ Ensure you have:
 * Dart SDK installed
 * Android Studio or Xcode configured
 * Emulator or physical device available
+* Firebase CLI installed (`npm install -g firebase-tools`)
+* FlutterFire CLI installed (`dart pub global activate flutterfire_cli`)
+* A Firebase account with access to the project (or your own Firebase project, see note below)
 
 Check your Flutter installation:
 
@@ -222,6 +225,60 @@ Generate dependency injection and serialization files:
 ```bash
 dart run build_runner build --delete-conflicting-outputs
 ```
+
+### ⚠️ Firebase Configuration Required
+
+> **Note:** This repository does **not** include the Firebase configuration/secret files needed to run the app (e.g. `google-services.json` for Android, `GoogleService-Info.plist` for iOS, and `lib/firebase_options.dart`). These are intentionally excluded from version control since they contain project-specific credentials.
+>
+> Without these files, the app **will fail to build or crash on launch** when it tries to initialize Firebase. You'll need to generate your own using the steps below before running the project.
+
+### Configuring the Project with FlutterFire
+
+1. **Log in to Firebase** (if you haven't already):
+
+   ```bash
+   firebase login
+   ```
+
+2. **Create or select a Firebase project**
+
+   * Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project (or use an existing one you have access to).
+   * Enable the services this app relies on (e.g. Authentication, Firestore/Realtime Database, Cloud Messaging — enable whichever the app uses).
+
+3. **Run the FlutterFire configuration command** from the root of the project:
+
+   ```bash
+   flutterfire configure
+   ```
+
+   This will:
+
+   * Prompt you to select your Firebase project
+   * Let you pick the platforms to configure (Android, iOS, etc.)
+   * Automatically register the app with Firebase for each selected platform
+   * Generate `lib/firebase_options.dart` in your project
+   * Download and place `google-services.json` into `android/app/`
+   * Download and place `GoogleService-Info.plist` into `ios/Runner/`
+
+4. **Verify the generated files exist:**
+
+   ```
+   android/app/google-services.json
+   ios/Runner/GoogleService-Info.plist
+   lib/firebase_options.dart
+   ```
+
+5. **Initialize Firebase in `main.dart`** (already wired into the app, but confirm it points to the generated options):
+
+   ```dart
+   await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+   );
+   ```
+
+6. Re-run `flutter pub get` and `dart run build_runner build --delete-conflicting-outputs` if prompted after configuration.
+
+Once these files are in place, the app should build and run normally.
 
 Run the application:
 
