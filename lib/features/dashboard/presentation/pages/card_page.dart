@@ -175,39 +175,39 @@ class _CardPageState extends State<CardPage> {
                             children: [
                               const SettingsSectionLabel('Card Settings'),
                               const SizedBox(height: AppDimens.spaceS),
-                              SettingsSwitchTile(
+                              AppActionTile.switchTile(
                                 iconName: AppAssets.changePin,
                                 label: 'Change Pin',
-                                switchValue: settings.changePinEnabled,
-                                onSwitchChanged: cubit.toggleChangePin,
+                                value: settings.changePinEnabled,
+                                onChanged: cubit.toggleChangePin,
                               ),
                               const SizedBox(height: AppDimens.spaceL),
-                              SettingsSwitchTile(
+                              AppActionTile.switchTile(
                                 iconName: AppAssets.qrPayment,
                                 label: 'QR Payment',
-                                switchValue: settings.qrPaymentEnabled,
-                                onSwitchChanged: cubit.toggleQrPayment,
+                                value: settings.qrPaymentEnabled,
+                                onChanged: cubit.toggleQrPayment,
                               ),
                               const SizedBox(height: AppDimens.spaceL),
-                              SettingsSwitchTile(
+                              AppActionTile.switchTile(
                                 iconName: AppAssets.shop,
                                 label: 'Online Shopping',
-                                switchValue: settings.onlineShoppingEnabled,
-                                onSwitchChanged: cubit.toggleOnlineShopping,
+                                value: settings.onlineShoppingEnabled,
+                                onChanged: cubit.toggleOnlineShopping,
                               ),
                               const SizedBox(height: AppDimens.spaceL),
-                              SettingsListTile(
+                              AppActionTile.arrow(
                                 iconName: AppAssets.cardTransactions,
                                 label: 'Card Transactions',
                                 onTap: () =>
                                     context.push(AppRoutes.cardTransaction),
                               ),
                               const SizedBox(height: AppDimens.spaceL),
-                              SettingsSwitchTile(
+                              AppActionTile.switchTile(
                                 iconName: AppAssets.tapPay,
                                 label: 'Tap Pay',
-                                switchValue: settings.tapPayEnabled,
-                                onSwitchChanged: cubit.toggleTapPay,
+                                value: settings.tapPayEnabled,
+                                onChanged: cubit.toggleTapPay,
                               ),
                             ],
                           ),

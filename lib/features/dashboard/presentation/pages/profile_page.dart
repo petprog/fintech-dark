@@ -64,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           Container(
                             width: 63,
                             height: 63,
-                            // border thickness
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -147,19 +146,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SettingsSectionLabel('Profile Settings'),
-                          ProfileListTile(
+                          AppActionTile.arrow(
                             iconName: AppAssets.eStatement,
                             label: 'E-Statement',
                             onTap: () {},
                           ),
                           const SizedBox(height: AppDimens.spaceM),
-                          ProfileListTile(
+                          AppActionTile.arrow(
                             iconName: AppAssets.creditCard,
                             label: 'Credit Card',
                             onTap: () {},
                           ),
                           const SizedBox(height: AppDimens.spaceM),
-                          ProfileListTile(
+                          AppActionTile.arrow(
                             iconName: AppAssets.settings,
                             label: 'Settings',
                             onTap: () {},
@@ -175,11 +174,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SettingsSectionLabel('Notification'),
-                          ProfileSwitchTile(
+                          AppActionTile.switchTile(
                             iconName: AppAssets.bellNotification,
                             label: 'App Notification',
-                            switchValue: _appNotificationsEnabled,
-                            onSwitchChanged: (value) => setState(
+                            value: _appNotificationsEnabled,
+                            onChanged: (value) => setState(
                               () => _appNotificationsEnabled = value,
                             ),
                           ),
@@ -194,13 +193,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SettingsSectionLabel('More'),
-                          ProfileListTile(
+                          AppActionTile.arrow(
                             iconName: AppAssets.language,
                             label: 'Language',
                             onTap: () {},
                           ),
                           const SizedBox(height: AppDimens.spaceM),
-                          ProfileListTile(
+                          AppActionTile.arrow(
                             iconName: AppAssets.country,
                             label: 'Country',
                             onTap: () {},

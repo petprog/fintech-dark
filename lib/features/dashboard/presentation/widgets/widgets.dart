@@ -11,4 +11,4 @@ export 'recent_transfer_row.dart';
 export 'bank_card.dart';
 export 'spark_line_chart.dart';
 export 'activity_statistics_card.dart';
-export 'profile_list_tile.dart';
+export 'app_settings_tile.dart';
