@@ -9,8 +9,13 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
+import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:hive_flutter/hive_flutter.dart' as _i986;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../features/dashboard/data/datasource/dashboard_remote_datasource.dart'
     as _i454;
@@ -32,19 +37,59 @@ import '../../features/features.dart' as _i233;
 import '../core.dart' as _i351;
 import '../network/dio_client.dart' as _i667;
 import '../network/network_info.dart' as _i932;
-import 'register_module.dart' as _i291;
+import 'modules/app_config_module.dart' as _i276;
+import 'modules/connectivity_module.dart' as _i855;
+import 'modules/hive_module.dart' as _i31;
+import 'modules/network_module.dart' as _i851;
+import 'modules/security_module.dart' as _i455;
+import 'modules/storage_module.dart' as _i148;
+
+const String _dev = 'dev';
+const String _prod = 'prod';
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    final registerModule = _$RegisterModule();
+    final hiveModule = _$HiveModule();
+    final storageModule = _$StorageModule();
+    final connectivityModule = _$ConnectivityModule();
+    final securityModule = _$SecurityModule();
+    final appConfigModule = _$AppConfigModule();
+    final networkModule = _$NetworkModule();
+    await gh.factoryAsync<_i986.Box<dynamic>>(
+      () => hiveModule.openSettingsBox(),
+      preResolve: true,
+    );
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => storageModule.provideSharedPreferences(),
+      preResolve: true,
+    );
     gh.factory<_i531.CardSettingsCubit>(() => _i531.CardSettingsCubit());
-    gh.lazySingleton<_i667.DioClient>(() => registerModule.dioClient);
-    gh.lazySingleton<_i932.NetworkInfo>(() => _i932.NetworkInfoImpl());
+    gh.lazySingleton<_i895.Connectivity>(
+      () => connectivityModule.provideConnectivity(),
+    );
+    gh.lazySingleton<_i558.FlutterSecureStorage>(
+      () => securityModule.provideSecureStorage(),
+    );
+    gh.singleton<_i351.AppConfig>(
+      () => appConfigModule.devConfig,
+      registerFor: {_dev},
+    );
+    gh.lazySingleton<_i932.NetworkInfo>(
+      () => _i932.NetworkInfoImpl(gh<_i895.Connectivity>()),
+    );
+    gh.singleton<_i351.AppConfig>(
+      () => appConfigModule.prodConfig,
+      registerFor: {_prod},
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.provideDio(gh<_i351.AppConfig>()),
+    );
+    gh.lazySingleton<_i667.DioClient>(() => _i667.DioClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i454.DashboardRemoteDatasource>(
       () => _i454.DashboardRemoteDatasourceImpl(gh<_i351.DioClient>()),
     );
@@ -75,4 +120,14 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$RegisterModule extends _i291.RegisterModule {}
+class _$HiveModule extends _i31.HiveModule {}
+
+class _$StorageModule extends _i148.StorageModule {}
+
+class _$ConnectivityModule extends _i855.ConnectivityModule {}
+
+class _$SecurityModule extends _i455.SecurityModule {}
+
+class _$AppConfigModule extends _i276.AppConfigModule {}
+
+class _$NetworkModule extends _i851.NetworkModule {}

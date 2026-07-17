@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import 'app/app.dart';
 import 'core/core.dart';
@@ -8,7 +9,7 @@ import 'features/features.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await configureDependencies();
+  await configureDependencies(Environment.dev);
 
   runApp(
     MultiBlocProvider(
