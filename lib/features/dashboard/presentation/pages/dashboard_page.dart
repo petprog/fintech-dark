@@ -138,8 +138,8 @@ class _DashboardContent extends StatelessWidget {
           StaggeredEntrance(
             child: BlocSelector<DashboardCubit, DashboardState, double>(
               selector: (state) => state is DashboardLoaded
-                  ? state.dashboard.totalBalance
-                  : dashboard.totalBalance,
+                  ? state.dashboard.totalBalance / 100
+                  : dashboard.totalBalance / 100,
               builder: (context, balance) => BalanceCard(
                 balance: balance,
                 onAddCash: () {},

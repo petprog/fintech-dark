@@ -1,14 +1,19 @@
 import 'package:intl/intl.dart';
 
 abstract final class Formatters {
-  static final NumberFormat _number = NumberFormat.decimalPattern('en_US');
+  static final NumberFormat _currency = NumberFormat.currency(
+    locale: 'en_US',
+    symbol: r'$',
+    decimalDigits: 0,
+  );
+  static final NumberFormat _decimal = NumberFormat.decimalPattern('en_US');
 
   static String currency(num value) {
-    return '${_number.format(value.toInt())}\$';
+    return _currency.format(value);
   }
 
   static String noCurrency(num value) {
-    return _number.format(value.toInt());
+    return _decimal.format(value.round());
   }
 
   static String signedAmount(num value) {

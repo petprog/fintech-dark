@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/errors/exceptions.dart';
-import '../../../../core/errors/failures.dart';
-import '../../../../core/network/network_info.dart';
+import '../../../../core/core.dart';
 import '../../../features.dart';
 
 @LazySingleton(as: DashboardRepository)
-class DashboardRepositoryImpl implements DashboardRepository {
-  final DashboardRemoteDatasource remoteDatasource;
+@LazySingleton(as: DashboardRepository)
+class DashboardRepositoryImpl with NetworkGuard implements DashboardRepository {
+  @override
   final NetworkInfo networkInfo;
+  final DashboardRemoteDatasource remoteDatasource;
 
   DashboardRepositoryImpl({
     required this.remoteDatasource,
@@ -17,70 +17,26 @@ class DashboardRepositoryImpl implements DashboardRepository {
   });
 
   @override
-  Future<Either<Failure, DashboardEntity>> getDashboard() async {
-    if (!await networkInfo.isConnected) {
-      return const Left(NetworkFailure());
-    }
-
-    try {
-      final model = await remoteDatasource.getDashboard();
-
-      return Right(model.toEntity());
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on NetworkException catch (e) {
-      return Left(NetworkFailure(e.message));
-    } catch (_) {
-      return const Left(UnknownFailure());
-    }
-  }
-
-  @override
-  Stream<Either<Failure, DashboardEntity>> watchDashboardUpdates(
-    DashboardEntity current,
-  ) async* {
-    if (!await networkInfo.isConnected) {
-      yield const Left(NetworkFailure());
-      return;
-    }
-
-    try {
-      await for (final update in remoteDatasource.watchDashboardUpdates(
-        current.toModel(),
-      )) {
-        yield Right(update.toEntity());
-      }
-    } on ServerException catch (e) {
-      yield Left(ServerFailure(e.message));
-    } on NetworkException catch (e) {
-      yield Left(NetworkFailure(e.message));
-    } catch (_) {
-      yield const Left(UnknownFailure());
-    }
-  }
+  Future<Either<Failure, DashboardEntity>> getDashboard() =>
+      guard(() async => (await remoteDatasource.getDashboard()).toEntity());
 
   @override
   Future<Either<Failure, CardEntity>> toggleFreezeCard({
     required String cardId,
     required bool freeze,
-  }) async {
-    if (!await networkInfo.isConnected) {
-      return const Left(NetworkFailure());
-    }
+  }) => guard(
+    () async => (await remoteDatasource.toggleFreezeCard(
+      cardId: cardId,
+      freeze: freeze,
+    )).toEntity(),
+  );
 
-    try {
-      final model = await remoteDatasource.toggleFreezeCard(
-        cardId: cardId,
-        freeze: freeze,
-      );
-
-      return Right(model.toEntity());
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on NetworkException catch (e) {
-      return Left(NetworkFailure(e.message));
-    } catch (_) {
-      return const Left(UnknownFailure());
-    }
-  }
+  @override
+  Stream<Either<Failure, DashboardEntity>> watchDashboardUpdates(
+    DashboardEntity current,
+  ) => guardStream(
+    () => remoteDatasource
+        .watchDashboardUpdates(current.toModel())
+        .map((m) => m.toEntity()),
+  );
 }

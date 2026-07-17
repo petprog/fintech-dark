@@ -12,10 +12,11 @@ class SparklineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final spots = [
       for (var i = 0; i < trend.length; i++)
-        FlSpot(i.toDouble(), trend[i].value),
+        FlSpot(i.toDouble(), trend[i].value / 100),
     ];
-    final maxY = trend.map((e) => e.value).reduce((a, b) => a > b ? a : b);
-
+    final maxY = trend
+        .map((e) => e.value / 100)
+        .reduce((a, b) => a > b ? a : b);
     return LineChart(
       LineChartData(
         minY: 0,

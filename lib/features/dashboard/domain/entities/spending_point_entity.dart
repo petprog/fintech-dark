@@ -5,6 +5,6 @@ part 'spending_point_entity.freezed.dart';
 abstract class SpendingPointEntity with _$SpendingPointEntity {
   const factory SpendingPointEntity({
     required String month,
-    required double value,
+    required int value,
   }) = _SpendingPointEntity;
 }

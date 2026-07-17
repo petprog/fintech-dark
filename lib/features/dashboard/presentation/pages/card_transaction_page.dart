@@ -87,7 +87,7 @@ class _CardTransactionPageState extends State<CardTransactionPage> {
                           child: GestureDetector(
                             child: StatisticsCard(
                               title: AppStrings.totalSpend,
-                              totalSpending: dashboard.totalSpending,
+                              totalSpending: dashboard.totalSpending / 100,
                               trend: dashboard.spendingTrend,
                               trailing: PeriodDropdownPill(
                                 selected: _period,

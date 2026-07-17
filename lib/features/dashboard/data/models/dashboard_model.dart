@@ -9,8 +9,8 @@ abstract class DashboardModel with _$DashboardModel {
   const factory DashboardModel({
     required String userName,
     required String email,
-    required double totalBalance,
-    required double totalSpending,
+    required int totalBalance,
+    required int totalSpending,
     required List<SpendingPointModel> spendingTrend,
     required List<CardModel> cards,
     required List<QuickActionModel> quickActions,

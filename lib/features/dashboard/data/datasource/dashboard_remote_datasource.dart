@@ -33,9 +33,8 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
     var latest = current;
     while (true) {
       await Future.delayed(AppDurationsAlias.realtimeTick);
-      // Nudge balance/spending/trend so the UI has something to animate.
-      final balanceDelta = (_random.nextDouble() * 40) - 15; // -15..+25
-      final spendDelta = _random.nextDouble() * 6;
+      final balanceDeltaCents = _random.nextInt(4000) - 1500;
+      final spendDeltaCents = _random.nextInt(600);
 
       final updatedTrend = List<SpendingPointModel>.from(
         latest.spendingTrend.map((e) => e),
@@ -45,15 +44,15 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
         final last = updatedTrend[lastIndex];
         updatedTrend[lastIndex] = SpendingPointModel(
           month: last.month,
-          value: (last.value + spendDelta).clamp(0, double.infinity),
+          value: (last.value + spendDeltaCents).clamp(0, 1 << 62),
         );
       }
 
       latest = DashboardModel(
         userName: latest.userName,
         email: latest.email,
-        totalBalance: (latest.totalBalance + balanceDelta),
-        totalSpending: latest.totalSpending + spendDelta,
+        totalBalance: latest.totalBalance + balanceDeltaCents,
+        totalSpending: latest.totalSpending + spendDeltaCents,
         spendingTrend: updatedTrend,
         cards: latest.cards,
         quickActions: latest.quickActions,
@@ -88,20 +87,20 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
 
   DashboardModel _seedDashboard() {
     return DashboardModel(
-      userName: 'Tayyab Sohail',
-      email: 'tayyabsohailabd@gmail.com',
-      totalBalance: 1200,
-      totalSpending: 1200,
-      spendingTrend: const [
-        SpendingPointModel(month: 'Jan', value: 900),
-        SpendingPointModel(month: 'Feb', value: 3657),
-        SpendingPointModel(month: 'Mar', value: 2400),
-        SpendingPointModel(month: 'Apr', value: 3100),
-        SpendingPointModel(month: 'May', value: 3900),
-        SpendingPointModel(month: 'Jun', value: 3300),
+      userName: 'Alex Morgan',
+      email: 'alex.morgan@example.com',
+      totalBalance: 120000,
+      totalSpending: 120000,
+      spendingTrend: [
+        const SpendingPointModel(month: 'Jan', value: 90000),
+        const SpendingPointModel(month: 'Feb', value: 365700),
+        const SpendingPointModel(month: 'Mar', value: 240000),
+        const SpendingPointModel(month: 'Apr', value: 310000),
+        const SpendingPointModel(month: 'May', value: 390000),
+        const SpendingPointModel(month: 'Jun', value: 330000),
       ],
-      cards: const [
-        CardModel(
+      cards: [
+        const CardModel(
           id: 'card_physical_1',
           holderName: 'Tayyab Sohail',
           maskedNumber: '●●●● ●●●● ●●●● 3466',
@@ -109,7 +108,7 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
           cvv: '663',
           isVirtual: false,
         ),
-        CardModel(
+        const CardModel(
           id: 'card_physical_1',
           holderName: 'Tayyab Sohail',
           maskedNumber: '●●●● ●●●● ●●●● 3466',
@@ -117,7 +116,7 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
           cvv: '663',
           isVirtual: false,
         ),
-        CardModel(
+        const CardModel(
           id: 'card_virtual_1',
           holderName: 'Tayyab Sohail',
           maskedNumber: '●●●● ●●●● ●●●● 8821',
@@ -125,7 +124,7 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
           cvv: '204',
           isVirtual: true,
         ),
-        CardModel(
+        const CardModel(
           id: 'card_virtual_1',
           holderName: 'Tayyab Sohail',
           maskedNumber: '●●●● ●●●● ●●●● 8821',
@@ -133,7 +132,7 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
           cvv: '204',
           isVirtual: true,
         ),
-        CardModel(
+        const CardModel(
           id: 'card_virtual_1',
           holderName: 'Tayyab Sohail',
           maskedNumber: '●●●● ●●●● ●●●● 8821',
@@ -142,19 +141,23 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
           isVirtual: true,
         ),
       ],
-      quickActions: const [
-        QuickActionModel(
+      quickActions: [
+        const QuickActionModel(
           id: 'bill_pay',
           label: 'Bill Pay',
           iconName: 'bill_pay',
         ),
-        QuickActionModel(
+        const QuickActionModel(
           id: 'donations',
           label: 'Donations',
           iconName: 'donations',
         ),
-        QuickActionModel(id: 'deposit', label: 'Deposit', iconName: 'deposit'),
-        QuickActionModel(id: 'more', label: 'More', iconName: 'more'),
+        const QuickActionModel(
+          id: 'deposit',
+          label: 'Deposit',
+          iconName: 'deposit',
+        ),
+        const QuickActionModel(id: 'more', label: 'More', iconName: 'more'),
       ],
       transactions: [
         TransactionModel(
