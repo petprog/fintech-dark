@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/app.dart';
 import '../../../../core/core.dart';
+import '../../../features.dart';
 
 class AppDrawer extends StatelessWidget {
   final String userName;
@@ -98,21 +99,21 @@ class AppDrawer extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: AppDimens.spaceM),
-                  _DrawerItem(
+                  AppActionTile.arrow(
                     iconName: AppAssets.eStatement,
                     label: AppStrings.eStatement,
                     onTap: () {},
                   ),
                   const SizedBox(height: AppDimens.spaceM),
 
-                  _DrawerItem(
+                  AppActionTile.arrow(
                     iconName: AppAssets.creditCard,
                     label: AppStrings.creditCard,
                     onTap: () => _navigate(context, AppRoutes.card),
                   ),
                   const SizedBox(height: AppDimens.spaceM),
 
-                  _DrawerItem(
+                  AppActionTile.arrow(
                     iconName: AppAssets.settings,
                     label: AppStrings.settings,
                     onTap: () {},
@@ -127,11 +128,11 @@ class AppDrawer extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: AppDimens.spaceM),
-                  _DrawerSwitchItem(
+                  AppActionTile.switchTile(
                     iconName: AppAssets.bellNotification,
                     label: AppStrings.appNotification,
-                    switchValue: true,
-                    onSwitchChanged: (_) {},
+                    value: true,
+                    onChanged: (_) {},
                   ),
                   const SizedBox(height: AppDimens.spaceM),
                   Text(
@@ -143,14 +144,14 @@ class AppDrawer extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: AppDimens.spaceM),
-                  _DrawerItem(
+                  AppActionTile.arrow(
                     iconName: AppAssets.language,
                     label: AppStrings.language,
                     onTap: () {},
                   ),
                   const SizedBox(height: AppDimens.spaceM),
 
-                  _DrawerItem(
+                  AppActionTile.arrow(
                     iconName: AppAssets.country,
                     label: AppStrings.country,
                     onTap: () => Navigator.of(context).pop(),
@@ -194,81 +195,5 @@ class AppDrawer extends StatelessWidget {
   void _navigate(BuildContext context, String route) {
     Navigator.of(context).pop();
     context.push(route);
-  }
-}
-
-class _DrawerItem extends StatelessWidget {
-  final String iconName;
-  final String label;
-  final VoidCallback onTap;
-
-  const _DrawerItem({
-    required this.iconName,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-      tileColor: AppColors.surfaceElevated,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      splashColor: AppColors.primary.withValues(alpha: 0.1),
-      leading: CircularSvgIcon(
-        iconSize: 24,
-        assetName: iconName,
-        iconColor: AppColors.primary,
-        size: 40,
-      ),
-      title: Text(
-        label,
-        style: AppTextStyles.body.copyWith(
-          fontSize: 16,
-          color: AppColors.textPrimary,
-        ),
-      ),
-      trailing: const AppSvg(assetName: AppAssets.chevronRight),
-      onTap: onTap,
-    );
-  }
-}
-
-class _DrawerSwitchItem extends StatelessWidget {
-  final String iconName;
-  final String label;
-  final bool switchValue;
-  final Function(bool)? onSwitchChanged;
-
-  const _DrawerSwitchItem({
-    required this.iconName,
-    required this.label,
-    required this.switchValue,
-    required this.onSwitchChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-      tileColor: AppColors.surfaceElevated,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      splashColor: AppColors.primary.withValues(alpha: 0.1),
-      leading: CircularSvgIcon(
-        iconSize: 24,
-        assetName: iconName,
-        iconColor: AppColors.primary,
-        size: 40,
-      ),
-      title: Text(
-        label,
-        style: AppTextStyles.body.copyWith(
-          fontSize: 16,
-          color: AppColors.textPrimary,
-        ),
-      ),
-
-      trailing: Switch(value: switchValue, onChanged: onSwitchChanged),
-    );
   }
 }

@@ -59,7 +59,8 @@ dependencies:
 
   # Storage
   flutter_secure_storage: ^9.2.4
-  hive_flutter: ^1.1.0
+  hive_ce_flutter: ^2.3.4
+  hive_ce: ^2.19.3
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,7 @@ dev_dependencies:
   freezed: ^3.2.3
   json_serializable: ^6.11.1
   injectable_generator: ^3.0.2
+  hive_ce_generator: ^1.11.0
 
 
 flutter:

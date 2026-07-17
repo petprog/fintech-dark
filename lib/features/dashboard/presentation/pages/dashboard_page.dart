@@ -47,20 +47,12 @@ class _DashboardPageState extends State<DashboardPage>
       },
     );
 
-    final isRefreshing = context.select<DashboardCubit, bool>(
-      (cubit) => switch (cubit.state) {
-        DashboardLoaded(:final isRefreshing) => isRefreshing,
-        _ => false,
-      },
-    );
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
       drawer: AppDrawer(userName: userName),
       appBar: DashboardAppBar(
         userName: userName,
-        isRefreshing: isRefreshing,
         onMenuTap: () => _scaffoldKey.currentState?.openDrawer(),
         onNotificationTap: () {},
       ),

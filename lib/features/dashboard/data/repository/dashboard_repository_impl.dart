@@ -21,8 +21,10 @@ class DashboardRepositoryImpl implements DashboardRepository {
     if (!await networkInfo.isConnected) {
       return const Left(NetworkFailure());
     }
+
     try {
       final model = await remoteDatasource.getDashboard();
+
       return Right(model.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
@@ -37,16 +39,21 @@ class DashboardRepositoryImpl implements DashboardRepository {
   Stream<Either<Failure, DashboardEntity>> watchDashboardUpdates(
     DashboardEntity current,
   ) async* {
-    final currentModel = current.toModel();
+    if (!await networkInfo.isConnected) {
+      yield const Left(NetworkFailure());
+      return;
+    }
 
     try {
       await for (final update in remoteDatasource.watchDashboardUpdates(
-        currentModel,
+        current.toModel(),
       )) {
         yield Right(update.toEntity());
       }
     } on ServerException catch (e) {
       yield Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      yield Left(NetworkFailure(e.message));
     } catch (_) {
       yield const Left(UnknownFailure());
     }
@@ -60,14 +67,18 @@ class DashboardRepositoryImpl implements DashboardRepository {
     if (!await networkInfo.isConnected) {
       return const Left(NetworkFailure());
     }
+
     try {
       final model = await remoteDatasource.toggleFreezeCard(
         cardId: cardId,
         freeze: freeze,
       );
+
       return Right(model.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
     } catch (_) {
       return const Left(UnknownFailure());
     }

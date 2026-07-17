@@ -1,12 +1,30 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../core.dart';
 
 @module
 abstract class HiveModule {
   @preResolve
-  Future<Box> openSettingsBox() async {
-    await Hive.initFlutter();
+  @Named('accountBox')
+  Future<Box<AccountModel>> accountBox(FlutterSecureStorage storage) async {
+    final key = await HiveEncryptionHelper.getKey(storage);
 
-    return Hive.openBox('settings');
+    return Hive.openBox<AccountModel>(
+      HiveBoxes.account,
+      encryptionCipher: HiveAesCipher(key),
+    );
+  }
+
+  @preResolve
+  @Named('walletBox')
+  Future<Box<WalletModel>> walletBox(FlutterSecureStorage storage) async {
+    final key = await HiveEncryptionHelper.getKey(storage);
+
+    return Hive.openBox<WalletModel>(
+      HiveBoxes.wallet,
+      encryptionCipher: HiveAesCipher(key),
+    );
   }
 }

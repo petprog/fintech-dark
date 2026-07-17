@@ -13,7 +13,7 @@ import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
-import 'package:hive_flutter/hive_flutter.dart' as _i986;
+import 'package:hive_ce_flutter/hive_ce_flutter.dart' as _i965;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
@@ -54,16 +54,12 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    final hiveModule = _$HiveModule();
     final storageModule = _$StorageModule();
     final connectivityModule = _$ConnectivityModule();
     final securityModule = _$SecurityModule();
+    final hiveModule = _$HiveModule();
     final appConfigModule = _$AppConfigModule();
     final networkModule = _$NetworkModule();
-    await gh.factoryAsync<_i986.Box<dynamic>>(
-      () => hiveModule.openSettingsBox(),
-      preResolve: true,
-    );
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => storageModule.provideSharedPreferences(),
       preResolve: true,
@@ -75,12 +71,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => securityModule.provideSecureStorage(),
     );
+    await gh.factoryAsync<_i965.Box<_i351.AccountModel>>(
+      () => hiveModule.accountBox(gh<_i558.FlutterSecureStorage>()),
+      instanceName: 'accountBox',
+      preResolve: true,
+    );
     gh.singleton<_i351.AppConfig>(
       () => appConfigModule.devConfig,
       registerFor: {_dev},
     );
     gh.lazySingleton<_i932.NetworkInfo>(
       () => _i932.NetworkInfoImpl(gh<_i895.Connectivity>()),
+    );
+    await gh.factoryAsync<_i965.Box<_i351.WalletModel>>(
+      () => hiveModule.walletBox(gh<_i558.FlutterSecureStorage>()),
+      instanceName: 'walletBox',
+      preResolve: true,
     );
     gh.singleton<_i351.AppConfig>(
       () => appConfigModule.prodConfig,
@@ -120,13 +126,13 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$HiveModule extends _i31.HiveModule {}
-
 class _$StorageModule extends _i148.StorageModule {}
 
 class _$ConnectivityModule extends _i855.ConnectivityModule {}
 
 class _$SecurityModule extends _i455.SecurityModule {}
+
+class _$HiveModule extends _i31.HiveModule {}
 
 class _$AppConfigModule extends _i276.AppConfigModule {}
 

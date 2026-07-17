@@ -25,7 +25,6 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
   @override
   Future<DashboardModel> getDashboard() async {
     await Future.delayed(ApiConstants.mockNetworkDelay);
-    _maybeThrow();
     return _seedDashboard();
   }
 
@@ -72,7 +71,6 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
     required bool freeze,
   }) async {
     await Future.delayed(const Duration(milliseconds: 400));
-    _maybeThrow();
     final card = _seedDashboard().cards.firstWhere(
       (c) => c.id == cardId,
       orElse: () => _seedDashboard().cards.first,
@@ -86,12 +84,6 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
       isVirtual: card.isVirtual,
       isFrozen: freeze,
     );
-  }
-
-  void _maybeThrow() {
-    if (_random.nextDouble() < ApiConstants.mockFailureRate) {
-      throw const ServerException('Failed to reach the dashboard service.');
-    }
   }
 
   DashboardModel _seedDashboard() {
