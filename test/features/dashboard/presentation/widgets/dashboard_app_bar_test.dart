@@ -14,7 +14,6 @@ void main() {
       wrap(
         DashboardAppBar(
           userName: 'Tayyab Sohail',
-          isRefreshing: false,
           onMenuTap: () {},
           onNotificationTap: () {},
         ),
@@ -36,7 +35,6 @@ void main() {
       wrap(
         DashboardAppBar(
           userName: '',
-          isRefreshing: false,
           onMenuTap: () {},
           onNotificationTap: () {},
         ),
@@ -53,7 +51,6 @@ void main() {
       wrap(
         DashboardAppBar(
           userName: 'Tayyab',
-          isRefreshing: false,
           onMenuTap: () => tapped = true,
           onNotificationTap: () {},
         ),
@@ -75,7 +72,6 @@ void main() {
       wrap(
         DashboardAppBar(
           userName: 'Tayyab',
-          isRefreshing: false,
           onMenuTap: () {},
           onNotificationTap: () => tapped = true,
         ),

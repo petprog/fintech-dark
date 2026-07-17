@@ -30,12 +30,15 @@ void main() {
   final tEntity = tModel.toEntity();
 
   setUpAll(() {
-    registerFallbackValue(tModel);
+    registerFallbackValue(FakeDashboardModel());
   });
 
   setUp(() {
     remoteDatasource = MockRemoteDatasource();
     networkInfo = MockNetworkInfo();
+
+    when(() => networkInfo.isConnected).thenAnswer((_) async => true);
+
     repository = DashboardRepositoryImpl(
       remoteDatasource: remoteDatasource,
       networkInfo: networkInfo,
@@ -117,6 +120,7 @@ void main() {
 
     test('yields multiple Right updates in order', () async {
       final secondModel = tModel.copyWith(totalBalance: 1300);
+
       when(
         () => remoteDatasource.watchDashboardUpdates(any()),
       ).thenAnswer((_) => Stream.fromIterable([tModel, secondModel]));
@@ -127,7 +131,7 @@ void main() {
     });
 
     test(
-      'yields ServerFailure when the datasource stream throws ServerException',
+      'yields ServerFailure when datasource stream throws ServerException',
       () async {
         when(() => remoteDatasource.watchDashboardUpdates(any())).thenAnswer(
           (_) => Stream<DashboardModel>.error(const ServerException('drop')),
@@ -140,7 +144,7 @@ void main() {
     );
 
     test(
-      'yields UnknownFailure when the datasource stream throws unexpectedly',
+      'yields UnknownFailure when datasource stream throws unexpectedly',
       () async {
         when(
           () => remoteDatasource.watchDashboardUpdates(any()),
@@ -153,7 +157,7 @@ void main() {
     );
 
     test(
-      'converts a DashboardEntity into a DashboardModel with matching fields before calling the datasource',
+      'converts DashboardEntity into DashboardModel before datasource call',
       () async {
         when(
           () => remoteDatasource.watchDashboardUpdates(any()),

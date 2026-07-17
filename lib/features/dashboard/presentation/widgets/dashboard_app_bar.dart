@@ -4,7 +4,6 @@ import '../../../../core/core.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
-  final bool isRefreshing;
   final VoidCallback onMenuTap;
   final VoidCallback onNotificationTap;
 
@@ -13,7 +12,6 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.userName,
     required this.onMenuTap,
     required this.onNotificationTap,
-    this.isRefreshing = false,
   });
 
   @override
