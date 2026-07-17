@@ -4,3 +4,4 @@ export 'constants/constants.dart';
 export 'network/network.dart';
 export 'errors/errors.dart';
 export 'di/di.dart';
+export 'config/app_config.dart';
