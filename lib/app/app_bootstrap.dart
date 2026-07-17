@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:fintech_dark/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:fintech_dark/firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
@@ -14,9 +14,9 @@ class AppBootstrap {
     WidgetsFlutterBinding.ensureInitialized();
 
     await _initializeHive();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
     await configureDependencies(Environment.dev);
 
     FlutterError.onError = (errorDetails) {
