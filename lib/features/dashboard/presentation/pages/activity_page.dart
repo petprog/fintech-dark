@@ -73,7 +73,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         child: StaggeredEntrance(
                           child: ActivityStatisticsCard(
                             title: 'Total Spending',
-                            totalSpending: dashboard.totalSpending,
+                            totalSpending: dashboard.totalSpending / 100,
                             trend: dashboard.spendingTrend,
                             filterRow: PeriodFilterRow(
                               selected: _period,

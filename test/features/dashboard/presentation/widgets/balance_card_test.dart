@@ -111,13 +111,4 @@ void main() {
 
     expect(sendCalled, false);
   });
-
-  // testWidgets('works in small width', (tester) async {
-  //   await tester.pumpWidget(wrap(SizedBox(width: 320, child: createCard())));
-
-  //   await tester.pumpAndSettle();
-
-  //   expect(find.text(AppStrings.totalBalance), findsOneWidget);
-  //   expect(tester.takeException(), isNull);
-  // });
 }

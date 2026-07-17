@@ -102,7 +102,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i233.DashboardRepository>(
       () => _i604.DashboardRepositoryImpl(
         remoteDatasource: gh<_i233.DashboardRemoteDatasource>(),
-        networkInfo: gh<_i932.NetworkInfo>(),
+        networkInfo: gh<_i351.NetworkInfo>(),
       ),
     );
     gh.factory<_i803.GetDashboardUsecase>(

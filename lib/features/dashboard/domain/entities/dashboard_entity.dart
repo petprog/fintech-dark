@@ -8,8 +8,8 @@ abstract class DashboardEntity with _$DashboardEntity {
   const factory DashboardEntity({
     required String userName,
     required String email,
-    required double totalBalance,
-    required double totalSpending,
+    required int totalBalance,
+    required int totalSpending,
     required List<SpendingPointEntity> spendingTrend,
     required List<CardEntity> cards,
     required List<QuickActionEntity> quickActions,

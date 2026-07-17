@@ -9,7 +9,7 @@ part 'spending_point_model.g.dart';
 abstract class SpendingPointModel with _$SpendingPointModel {
   const factory SpendingPointModel({
     required String month,
-    required double value,
+    required int value,
   }) = _SpendingPointModel;
 
   factory SpendingPointModel.fromJson(Map<String, dynamic> json) =>
