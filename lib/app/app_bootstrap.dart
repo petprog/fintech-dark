@@ -2,6 +2,7 @@ import 'dart:ui';
 
 // import 'package:fintech_dark/firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';
+import 'package:fintech_dark/hive_registrar.g.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
@@ -22,6 +23,7 @@ class AppBootstrap {
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
     };
+
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
@@ -30,12 +32,6 @@ class AppBootstrap {
 
   static Future<void> _initializeHive() async {
     await Hive.initFlutter();
-
-    _registerHiveAdapters();
-  }
-
-  static void _registerHiveAdapters() {
-    Hive.registerAdapter(AccountModelAdapter());
-    Hive.registerAdapter(WalletModelAdapter());
+    Hive.registerAdapters();
   }
 }
