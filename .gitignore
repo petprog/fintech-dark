@@ -61,7 +61,21 @@ app.*.map.json
 **/*.mocks.dart
 **/*secrets.dart
 
-# # Android signing configs
-# android/key.properties
-# *.jks
-# *.keystore
+# Android signing configs
+android/key.properties
+*.jks
+*.keystore
+
+# Firebase
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+firebase.json
+
+
+# Firebase Admin / server secrets
+firebase-adminsdk*.json
+serviceAccount*.json
+
+# FlutterFire local files
+.firebase/
