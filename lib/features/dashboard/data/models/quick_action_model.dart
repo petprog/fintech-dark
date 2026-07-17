@@ -1,23 +1,28 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../../features.dart';
 
-class QuickActionModel extends QuickActionEntity {
-  const QuickActionModel({
-    required super.id,
-    required super.label,
-    required super.iconName,
-  });
+part 'quick_action_model.freezed.dart';
+part 'quick_action_model.g.dart';
 
-  factory QuickActionModel.fromJson(Map<String, dynamic> json) {
-    return QuickActionModel(
-      id: json['id'] as String,
-      label: json['label'] as String,
-      iconName: json['iconName'] as String,
-    );
-  }
+@freezed
+abstract class QuickActionModel with _$QuickActionModel {
+  const factory QuickActionModel({
+    required String id,
+    required String label,
+    required String iconName,
+  }) = _QuickActionModel;
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'label': label,
-    'iconName': iconName,
-  };
+  factory QuickActionModel.fromJson(Map<String, dynamic> json) =>
+      _$QuickActionModelFromJson(json);
+}
+
+extension QuickActionModelMapper on QuickActionModel {
+  QuickActionEntity toEntity() =>
+      QuickActionEntity(id: id, label: label, iconName: iconName);
+}
+
+extension QuickActionEntityMapper on QuickActionEntity {
+  QuickActionModel toModel() =>
+      QuickActionModel(id: id, label: label, iconName: iconName);
 }

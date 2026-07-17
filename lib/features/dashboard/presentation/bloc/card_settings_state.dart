@@ -1,38 +1,13 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class CardSettingsState extends Equatable {
-  final bool changePinEnabled;
-  final bool qrPaymentEnabled;
-  final bool onlineShoppingEnabled;
-  final bool tapPayEnabled;
+part 'card_settings_state.freezed.dart';
 
-  const CardSettingsState({
-    this.changePinEnabled = false,
-    this.qrPaymentEnabled = true,
-    this.onlineShoppingEnabled = true,
-    this.tapPayEnabled = true,
-  });
-
-  CardSettingsState copyWith({
-    bool? changePinEnabled,
-    bool? qrPaymentEnabled,
-    bool? onlineShoppingEnabled,
-    bool? tapPayEnabled,
-  }) {
-    return CardSettingsState(
-      changePinEnabled: changePinEnabled ?? this.changePinEnabled,
-      qrPaymentEnabled: qrPaymentEnabled ?? this.qrPaymentEnabled,
-      onlineShoppingEnabled:
-          onlineShoppingEnabled ?? this.onlineShoppingEnabled,
-      tapPayEnabled: tapPayEnabled ?? this.tapPayEnabled,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-    changePinEnabled,
-    qrPaymentEnabled,
-    onlineShoppingEnabled,
-    tapPayEnabled,
-  ];
+@freezed
+abstract class CardSettingsState with _$CardSettingsState {
+  const factory CardSettingsState({
+    @Default(false) bool changePinEnabled,
+    @Default(true) bool qrPaymentEnabled,
+    @Default(true) bool onlineShoppingEnabled,
+    @Default(true) bool tapPayEnabled,
+  }) = _CardSettingsState;
 }

@@ -23,7 +23,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
     }
     try {
       final model = await remoteDatasource.getDashboard();
-      return Right(model);
+      return Right(model.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException catch (e) {
@@ -37,58 +37,13 @@ class DashboardRepositoryImpl implements DashboardRepository {
   Stream<Either<Failure, DashboardEntity>> watchDashboardUpdates(
     DashboardEntity current,
   ) async* {
-    final currentModel = current is DashboardModel
-        ? current
-        : DashboardModel(
-            userName: current.userName,
-            email: current.email,
-            totalBalance: current.totalBalance,
-            totalSpending: current.totalSpending,
-            spendingTrend: current.spendingTrend
-                .map((e) => SpendingPointModel(month: e.month, value: e.value))
-                .toList(),
-            cards: current.cards
-                .map(
-                  (e) => CardModel(
-                    id: e.id,
-                    holderName: e.holderName,
-                    maskedNumber: e.maskedNumber,
-                    validThru: e.validThru,
-                    cvv: e.cvv,
-                    isVirtual: e.isVirtual,
-                    isFrozen: e.isFrozen,
-                  ),
-                )
-                .toList(),
-            quickActions: current.quickActions
-                .map(
-                  (e) => QuickActionModel(
-                    id: e.id,
-                    label: e.label,
-                    iconName: e.iconName,
-                  ),
-                )
-                .toList(),
-            transactions: current.transactions
-                .map(
-                  (e) => TransactionModel(
-                    id: e.id,
-                    title: e.title,
-                    dateTime: e.dateTime,
-                    amount: e.amount,
-                    isCredit: e.isCredit,
-                    type: e.type,
-                  ),
-                )
-                .toList(),
-            lastUpdated: current.lastUpdated,
-          );
+    final currentModel = current.toModel();
 
     try {
       await for (final update in remoteDatasource.watchDashboardUpdates(
         currentModel,
       )) {
-        yield Right(update);
+        yield Right(update.toEntity());
       }
     } on ServerException catch (e) {
       yield Left(ServerFailure(e.message));
@@ -110,7 +65,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
         cardId: cardId,
         freeze: freeze,
       );
-      return Right(model);
+      return Right(model.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (_) {

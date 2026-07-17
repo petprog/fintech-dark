@@ -1,83 +1,51 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../features.dart';
 
-class DashboardModel extends DashboardEntity {
-  const DashboardModel({
-    required super.userName,
-    required super.email,
-    required super.totalBalance,
-    required super.totalSpending,
-    required super.spendingTrend,
-    required super.cards,
-    required super.quickActions,
-    required super.transactions,
-    required super.lastUpdated,
-  });
+part 'dashboard_model.freezed.dart';
+part 'dashboard_model.g.dart';
 
-  factory DashboardModel.fromJson(Map<String, dynamic> json) {
-    return DashboardModel(
-      userName: json['userName'] as String,
-      email: json['email'] as String,
-      totalBalance: (json['totalBalance'] as num).toDouble(),
-      totalSpending: (json['totalSpending'] as num).toDouble(),
-      spendingTrend: (json['spendingTrend'] as List)
-          .map((e) => SpendingPointModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      cards: (json['cards'] as List)
-          .map((e) => CardModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      quickActions: (json['quickActions'] as List)
-          .map((e) => QuickActionModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      transactions: (json['transactions'] as List)
-          .map((e) => TransactionModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      lastUpdated: DateTime.parse(json['lastUpdated'] as String),
-    );
-  }
+@freezed
+abstract class DashboardModel with _$DashboardModel {
+  const factory DashboardModel({
+    required String userName,
+    required String email,
+    required double totalBalance,
+    required double totalSpending,
+    required List<SpendingPointModel> spendingTrend,
+    required List<CardModel> cards,
+    required List<QuickActionModel> quickActions,
+    required List<TransactionModel> transactions,
+    required DateTime lastUpdated,
+  }) = _DashboardModel;
 
-  Map<String, dynamic> toJson() => {
-    'userName': userName,
-    'email': email,
-    'totalBalance': totalBalance,
-    'totalSpending': totalSpending,
-    'spendingTrend': spendingTrend
-        .map((e) => (e as SpendingPointModel).toJson())
-        .toList(),
-    'cards': cards.map((e) => (e as CardModel).toJson()).toList(),
-    'quickActions': quickActions
-        .map((e) => (e as QuickActionModel).toJson())
-        .toList(),
-    'transactions': transactions
-        .map((e) => (e as TransactionModel).toJson())
-        .toList(),
-    'lastUpdated': lastUpdated.toIso8601String(),
-  };
+  factory DashboardModel.fromJson(Map<String, dynamic> json) =>
+      _$DashboardModelFromJson(json);
+}
 
-  @override
-  DashboardModel copyWith({
-    String? userName,
-    String? email,
-    double? totalBalance,
-    double? totalSpending,
-    List<SpendingPointEntity>? spendingTrend,
-    List<CardEntity>? cards,
-    List<QuickActionEntity>? quickActions,
-    List<TransactionEntity>? transactions,
-    DateTime? lastUpdated,
-  }) {
-    return DashboardModel(
-      userName: userName ?? this.userName,
-      email: email ?? this.email,
-      totalBalance: totalBalance ?? this.totalBalance,
-      totalSpending: totalSpending ?? this.totalSpending,
-      spendingTrend: (spendingTrend ?? this.spendingTrend)
-          .cast<SpendingPointModel>(),
-      cards: (cards ?? this.cards).cast<CardModel>(),
-      quickActions: (quickActions ?? this.quickActions)
-          .cast<QuickActionModel>(),
-      transactions: (transactions ?? this.transactions)
-          .cast<TransactionModel>(),
-      lastUpdated: lastUpdated ?? this.lastUpdated,
-    );
-  }
+extension DashboardModelMapper on DashboardModel {
+  DashboardEntity toEntity() => DashboardEntity(
+    userName: userName,
+    email: email,
+    totalBalance: totalBalance,
+    totalSpending: totalSpending,
+    spendingTrend: spendingTrend.map((e) => e.toEntity()).toList(),
+    cards: cards.map((e) => e.toEntity()).toList(),
+    quickActions: quickActions.map((e) => e.toEntity()).toList(),
+    transactions: transactions.map((e) => e.toEntity()).toList(),
+    lastUpdated: lastUpdated,
+  );
+}
+
+extension DashboardEntityMapper on DashboardEntity {
+  DashboardModel toModel() => DashboardModel(
+    userName: userName,
+    email: email,
+    totalBalance: totalBalance,
+    totalSpending: totalSpending,
+    spendingTrend: spendingTrend.map((e) => e.toModel()).toList(),
+    cards: cards.map((e) => e.toModel()).toList(),
+    quickActions: quickActions.map((e) => e.toModel()).toList(),
+    transactions: transactions.map((e) => e.toModel()).toList(),
+    lastUpdated: lastUpdated,
+  );
 }

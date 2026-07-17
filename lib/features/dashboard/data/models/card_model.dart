@@ -1,35 +1,45 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../features.dart';
 
-class CardModel extends CardEntity {
-  const CardModel({
-    required super.id,
-    required super.holderName,
-    required super.maskedNumber,
-    required super.validThru,
-    required super.cvv,
-    required super.isVirtual,
-    super.isFrozen,
-  });
+part 'card_model.freezed.dart';
+part 'card_model.g.dart';
 
-  factory CardModel.fromJson(Map<String, dynamic> json) {
-    return CardModel(
-      id: json['id'] as String,
-      holderName: json['holderName'] as String,
-      maskedNumber: json['maskedNumber'] as String,
-      validThru: json['validThru'] as String,
-      cvv: json['cvv'] as String,
-      isVirtual: json['isVirtual'] as bool,
-      isFrozen: json['isFrozen'] as bool? ?? false,
-    );
-  }
+@freezed
+abstract class CardModel with _$CardModel {
+  const factory CardModel({
+    required String id,
+    required String holderName,
+    required String maskedNumber,
+    required String validThru,
+    required String cvv,
+    required bool isVirtual,
+    @Default(false) bool isFrozen,
+  }) = _CardModel;
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'holderName': holderName,
-    'maskedNumber': maskedNumber,
-    'validThru': validThru,
-    'cvv': cvv,
-    'isVirtual': isVirtual,
-    'isFrozen': isFrozen,
-  };
+  factory CardModel.fromJson(Map<String, dynamic> json) =>
+      _$CardModelFromJson(json);
+}
+
+extension CardModelMapper on CardModel {
+  CardEntity toEntity() => CardEntity(
+    id: id,
+    holderName: holderName,
+    maskedNumber: maskedNumber,
+    validThru: validThru,
+    cvv: cvv,
+    isVirtual: isVirtual,
+    isFrozen: isFrozen,
+  );
+}
+
+extension CardEntityMapper on CardEntity {
+  CardModel toModel() => CardModel(
+    id: id,
+    holderName: holderName,
+    maskedNumber: maskedNumber,
+    validThru: validThru,
+    cvv: cvv,
+    isVirtual: isVirtual,
+    isFrozen: isFrozen,
+  );
 }

@@ -169,7 +169,7 @@ void main() {
           () => remoteDatasource.watchDashboardUpdates(any()),
         ).thenAnswer((_) => Stream.value(tModel));
 
-        await repository.watchDashboardUpdates(tModel).first;
+        await repository.watchDashboardUpdates(tModel.toEntity()).first;
 
         final captured =
             verify(

@@ -1,57 +1,22 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/dashboard_entity.dart';
 
-sealed class DashboardState extends Equatable {
-  const DashboardState();
+part 'dashboard_state.freezed.dart';
 
-  @override
-  List<Object?> get props => [];
-}
+@freezed
+sealed class DashboardState with _$DashboardState {
+  const factory DashboardState.initial() = DashboardInitial;
 
-class DashboardInitial extends DashboardState {
-  const DashboardInitial();
-}
+  const factory DashboardState.loading() = DashboardLoading;
 
-class DashboardLoading extends DashboardState {
-  const DashboardLoading();
-}
+  const factory DashboardState.loaded({
+    required DashboardEntity dashboard,
+    @Default(false) bool isRefreshing,
+    @Default(false) bool isLive,
+  }) = DashboardLoaded;
 
-class DashboardLoaded extends DashboardState {
-  final DashboardEntity dashboard;
-
-  final bool isRefreshing;
-
-  final bool isLive;
-
-  const DashboardLoaded({
-    required this.dashboard,
-    this.isRefreshing = false,
-    this.isLive = false,
-  });
-
-  DashboardLoaded copyWith({
-    DashboardEntity? dashboard,
-    bool? isRefreshing,
-    bool? isLive,
-  }) {
-    return DashboardLoaded(
-      dashboard: dashboard ?? this.dashboard,
-      isRefreshing: isRefreshing ?? this.isRefreshing,
-      isLive: isLive ?? this.isLive,
-    );
-  }
-
-  @override
-  List<Object?> get props => [dashboard, isRefreshing, isLive];
-}
-
-class DashboardError extends DashboardState {
-  final String message;
-
-  final DashboardEntity? lastKnownGood;
-
-  const DashboardError(this.message, {this.lastKnownGood});
-
-  @override
-  List<Object?> get props => [message, lastKnownGood];
+  const factory DashboardState.error(
+    String message, {
+    DashboardEntity? lastKnownGood,
+  }) = DashboardError;
 }
