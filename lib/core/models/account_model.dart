@@ -1,11 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
+import '../core.dart';
+
 part 'account_model.freezed.dart';
 part 'account_model.g.dart';
 
 @freezed
-@HiveType(typeId: 0)
+@HiveType(typeId: HiveTypeIds.account)
 abstract class AccountModel with _$AccountModel {
   const factory AccountModel({
     @HiveField(0) required String id,

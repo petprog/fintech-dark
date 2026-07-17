@@ -57,8 +57,8 @@ extension GetItInjectableX on _i174.GetIt {
     final storageModule = _$StorageModule();
     final connectivityModule = _$ConnectivityModule();
     final securityModule = _$SecurityModule();
-    final hiveModule = _$HiveModule();
     final appConfigModule = _$AppConfigModule();
+    final hiveModule = _$HiveModule();
     final networkModule = _$NetworkModule();
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => storageModule.provideSharedPreferences(),
@@ -71,11 +71,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => securityModule.provideSecureStorage(),
     );
-    await gh.factoryAsync<_i965.Box<_i351.AccountModel>>(
-      () => hiveModule.accountBox(gh<_i558.FlutterSecureStorage>()),
-      instanceName: 'accountBox',
-      preResolve: true,
-    );
     gh.singleton<_i351.AppConfig>(
       () => appConfigModule.devConfig,
       registerFor: {_dev},
@@ -83,14 +78,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i932.NetworkInfo>(
       () => _i932.NetworkInfoImpl(gh<_i895.Connectivity>()),
     );
+    await gh.singletonAsync<List<int>>(
+      () => hiveModule.hiveEncryptionKey(gh<_i558.FlutterSecureStorage>()),
+      instanceName: 'hiveEncryptionKey',
+      preResolve: true,
+    );
     await gh.factoryAsync<_i965.Box<_i351.WalletModel>>(
-      () => hiveModule.walletBox(gh<_i558.FlutterSecureStorage>()),
+      () => hiveModule.walletBox(
+        gh<List<int>>(instanceName: 'hiveEncryptionKey'),
+      ),
       instanceName: 'walletBox',
       preResolve: true,
     );
     gh.singleton<_i351.AppConfig>(
       () => appConfigModule.prodConfig,
       registerFor: {_prod},
+    );
+    await gh.factoryAsync<_i965.Box<_i351.AccountModel>>(
+      () => hiveModule.accountBox(
+        gh<List<int>>(instanceName: 'hiveEncryptionKey'),
+      ),
+      instanceName: 'accountBox',
+      preResolve: true,
     );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.provideDio(gh<_i351.AppConfig>()),
@@ -132,8 +141,8 @@ class _$ConnectivityModule extends _i855.ConnectivityModule {}
 
 class _$SecurityModule extends _i455.SecurityModule {}
 
-class _$HiveModule extends _i31.HiveModule {}
-
 class _$AppConfigModule extends _i276.AppConfigModule {}
+
+class _$HiveModule extends _i31.HiveModule {}
 
 class _$NetworkModule extends _i851.NetworkModule {}
