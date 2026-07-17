@@ -1,42 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class CardEntity extends Equatable {
-  final String id;
-  final String holderName;
-  final String maskedNumber;
-  final String validThru;
-  final String cvv;
-  final bool isVirtual;
-  final bool isFrozen;
+part 'card_entity.freezed.dart';
 
-  const CardEntity({
-    required this.id,
-    required this.holderName,
-    required this.maskedNumber,
-    required this.validThru,
-    required this.cvv,
-    required this.isVirtual,
-    this.isFrozen = false,
-  });
-
-  CardEntity copyWith({bool? isFrozen}) => CardEntity(
-    id: id,
-    holderName: holderName,
-    maskedNumber: maskedNumber,
-    validThru: validThru,
-    cvv: cvv,
-    isVirtual: isVirtual,
-    isFrozen: isFrozen ?? this.isFrozen,
-  );
-
-  @override
-  List<Object?> get props => [
-    id,
-    holderName,
-    maskedNumber,
-    validThru,
-    cvv,
-    isVirtual,
-    isFrozen,
-  ];
+@freezed
+abstract class CardEntity with _$CardEntity {
+  const factory CardEntity({
+    required String id,
+    required String holderName,
+    required String maskedNumber,
+    required String validThru,
+    required String cvv,
+    required bool isVirtual,
+    @Default(false) bool isFrozen,
+  }) = _CardEntity;
 }

@@ -39,7 +39,7 @@ class DashboardRemoteDatasourceImpl implements DashboardRemoteDatasource {
       final spendDelta = _random.nextDouble() * 6;
 
       final updatedTrend = List<SpendingPointModel>.from(
-        latest.spendingTrend.map((e) => e as SpendingPointModel),
+        latest.spendingTrend.map((e) => e),
       );
       if (updatedTrend.isNotEmpty) {
         final lastIndex = updatedTrend.length - 1;

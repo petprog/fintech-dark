@@ -1,16 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class QuickActionEntity extends Equatable {
-  final String id;
-  final String label;
-  final String iconName;
+part 'quick_action_entity.freezed.dart';
 
-  const QuickActionEntity({
-    required this.id,
-    required this.label,
-    required this.iconName,
-  });
-
-  @override
-  List<Object?> get props => [id, label, iconName];
+@freezed
+abstract class QuickActionEntity with _$QuickActionEntity {
+  const factory QuickActionEntity({
+    required String id,
+    required String label,
+    required String iconName,
+  }) = _QuickActionEntity;
 }

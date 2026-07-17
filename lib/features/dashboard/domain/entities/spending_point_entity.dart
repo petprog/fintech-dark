@@ -1,11 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'spending_point_entity.freezed.dart';
 
-class SpendingPointEntity extends Equatable {
-  final String month;
-  final double value;
-
-  const SpendingPointEntity({required this.month, required this.value});
-
-  @override
-  List<Object?> get props => [month, value];
+@freezed
+abstract class SpendingPointEntity with _$SpendingPointEntity {
+  const factory SpendingPointEntity({
+    required String month,
+    required double value,
+  }) = _SpendingPointEntity;
 }

@@ -1,14 +1,27 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../../features.dart';
 
-class SpendingPointModel extends SpendingPointEntity {
-  const SpendingPointModel({required super.month, required super.value});
+part 'spending_point_model.freezed.dart';
+part 'spending_point_model.g.dart';
 
-  factory SpendingPointModel.fromJson(Map<String, dynamic> json) {
-    return SpendingPointModel(
-      month: json['month'] as String,
-      value: (json['value'] as num).toDouble(),
-    );
-  }
+@freezed
+abstract class SpendingPointModel with _$SpendingPointModel {
+  const factory SpendingPointModel({
+    required String month,
+    required double value,
+  }) = _SpendingPointModel;
 
-  Map<String, dynamic> toJson() => {'month': month, 'value': value};
+  factory SpendingPointModel.fromJson(Map<String, dynamic> json) =>
+      _$SpendingPointModelFromJson(json);
+}
+
+extension SpendingPointModelMapper on SpendingPointModel {
+  SpendingPointEntity toEntity() =>
+      SpendingPointEntity(month: month, value: value);
+}
+
+extension SpendingPointEntityMapper on SpendingPointEntity {
+  SpendingPointModel toModel() =>
+      SpendingPointModel(month: month, value: value);
 }
