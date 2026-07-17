@@ -4,13 +4,24 @@ import 'package:injectable/injectable.dart';
 
 import '../../core.dart';
 
+abstract final class HiveInjectionNames {
+  static const encryptionKey = 'hiveEncryptionKey';
+}
+
 @module
 abstract class HiveModule {
   @preResolve
-  @Named('accountBox')
-  Future<Box<AccountModel>> accountBox(FlutterSecureStorage storage) async {
-    final key = await HiveEncryptionHelper.getKey(storage);
+  @singleton
+  @Named(HiveInjectionNames.encryptionKey)
+  Future<List<int>> hiveEncryptionKey(FlutterSecureStorage storage) async {
+    return HiveEncryptionHelper.getKey(storage);
+  }
 
+  @preResolve
+  @Named(HiveBoxNames.accountBox)
+  Future<Box<AccountModel>> accountBox(
+    @Named(HiveInjectionNames.encryptionKey) List<int> key,
+  ) async {
     return Hive.openBox<AccountModel>(
       HiveBoxes.account,
       encryptionCipher: HiveAesCipher(key),
@@ -18,10 +29,10 @@ abstract class HiveModule {
   }
 
   @preResolve
-  @Named('walletBox')
-  Future<Box<WalletModel>> walletBox(FlutterSecureStorage storage) async {
-    final key = await HiveEncryptionHelper.getKey(storage);
-
+  @Named(HiveBoxNames.wallet)
+  Future<Box<WalletModel>> walletBox(
+    @Named(HiveInjectionNames.encryptionKey) List<int> key,
+  ) async {
     return Hive.openBox<WalletModel>(
       HiveBoxes.wallet,
       encryptionCipher: HiveAesCipher(key),
