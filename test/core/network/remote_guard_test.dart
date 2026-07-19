@@ -3,7 +3,7 @@ import 'package:fintech_dark/core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _TestGuard with NetworkGuard {
+class _TestGuard with RemoteGuard {
   @override
   final NetworkInfo networkInfo;
   _TestGuard(this.networkInfo);
@@ -22,19 +22,19 @@ void main() {
 
   test('returns NetworkFailure when offline', () async {
     when(() => networkInfo.isConnected).thenAnswer((_) async => false);
-    final result = await sut.guard(() async => 'value');
+    final result = await sut.remoteGuard(() async => 'value');
     expect(result, const Left(NetworkFailure()));
   });
 
   test('returns Right on success', () async {
     when(() => networkInfo.isConnected).thenAnswer((_) async => true);
-    final result = await sut.guard(() async => 'value');
+    final result = await sut.remoteGuard(() async => 'value');
     expect(result, const Right('value'));
   });
 
   test('maps ServerException to ServerFailure', () async {
     when(() => networkInfo.isConnected).thenAnswer((_) async => true);
-    final result = await sut.guard(
+    final result = await sut.remoteGuard(
       () async => throw const ServerException('boom'),
     );
     expect(result, const Left(ServerFailure('boom')));
