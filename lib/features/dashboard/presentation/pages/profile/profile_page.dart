@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../common/common.dart';
-import '../../../../core/core.dart';
-import '../../../features.dart';
+import '../../../../../common/common.dart';
+import '../../../../../core/core.dart';
+import '../../../../features.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

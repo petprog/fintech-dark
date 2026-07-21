@@ -43,7 +43,7 @@ abstract final class AppAssets {
 
   // Images
   static const String chip = "${chipPath}chip.png";
-  static const String avatar1 = "$avatarsPath/avatar1.png";
+  static const String avatar1 = "${avatarsPath}avatar1.png";
   static const String cardBackgroundDark =
-      "$backgroundsPath/card_background_dark.png";
+      "${backgroundsPath}card_background_dark.png";
 }

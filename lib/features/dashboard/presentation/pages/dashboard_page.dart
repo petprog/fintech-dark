@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../app/app.dart';
 import '../../../../core/core.dart';
 import '../../../features.dart';
@@ -14,8 +13,6 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage>
     with SingleTickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   late final AnimationController _pageController = AnimationController(
     vsync: this,
     duration: AppDurations.pageEntrance,
@@ -39,24 +36,9 @@ class _DashboardPageState extends State<DashboardPage>
     final horizontalPadding = ResponsiveUtils.horizontalPadding(context);
     final maxWidth = ResponsiveUtils.maxContentWidth(context);
 
-    final userName = context.select<DashboardCubit, String>(
-      (cubit) => switch (cubit.state) {
-        DashboardLoaded(:final dashboard) => dashboard.userName,
-        DashboardError(lastKnownGood: final d?) => d.userName,
-        _ => '',
-      },
-    );
-
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: AppColors.background,
-      drawer: AppDrawer(userName: userName),
-      appBar: DashboardAppBar(
-        userName: userName,
-        onMenuTap: () => _scaffoldKey.currentState?.openDrawer(),
-        onNotificationTap: () {},
-      ),
-      body: SafeArea(
+    return Container(
+      color: AppColors.background,
+      child: SafeArea(
         child: FadeTransition(
           opacity: _pageFade,
           child: Center(
@@ -164,7 +146,7 @@ class _DashboardContent extends StatelessWidget {
               transactions: dashboard.transactions,
               selectedFilter: filter,
               onFilterChanged: onFilterChanged,
-              onSeeAll: () => context.push(AppRoutes.activity),
+              onSeeAll: () => const CardTransactionRoute().push(context),
             ),
           ),
           const SizedBox(height: AppDimens.spaceXXL),
