@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/common.dart';
 import '../../../../core/core.dart';
+import '../../dashboard.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String userName;
   final VoidCallback onMenuTap;
   final VoidCallback onNotificationTap;
 
   const DashboardAppBar({
     super.key,
-    required this.userName,
     required this.onMenuTap,
     required this.onNotificationTap,
   });
@@ -19,6 +19,13 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userName = context.select<DashboardCubit, String>(
+      (cubit) => switch (cubit.state) {
+        DashboardLoaded(:final dashboard) => dashboard.userName,
+        DashboardError(lastKnownGood: final d?) => d.userName,
+        _ => '',
+      },
+    );
     return AppBar(
       backgroundColor: const Color(0xFF272729),
       surfaceTintColor: Colors.transparent,

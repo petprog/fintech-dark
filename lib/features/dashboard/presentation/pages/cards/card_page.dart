@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../app/app.dart';
-import '../../../../core/core.dart';
-import '../../../features.dart';
+import '../../../../../app/app.dart';
+import '../../../../../core/core.dart';
+import '../../../../features.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -200,7 +199,7 @@ class _CardPageState extends State<CardPage> {
                                 iconName: AppAssets.cardTransactions,
                                 label: 'Card Transactions',
                                 onTap: () =>
-                                    context.push(AppRoutes.cardTransaction),
+                                    const CardTransactionRoute().push(context),
                               ),
                               const SizedBox(height: AppDimens.spaceL),
                               AppActionTile.switchTile(

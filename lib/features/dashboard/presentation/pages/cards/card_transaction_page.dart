@@ -1,9 +1,8 @@
 import 'package:fintech_dark/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/core.dart';
-import '../../../features.dart';
+import '../../../../../core/core.dart';
+import '../../../../features.dart';
 
 class CardTransactionPage extends StatefulWidget {
   const CardTransactionPage({super.key});
@@ -93,7 +92,7 @@ class _CardTransactionPageState extends State<CardTransactionPage> {
                                 selected: _period,
                                 onChanged: (p) => setState(() => _period = p),
                               ),
-                              onTap: () => context.push(AppRoutes.activity),
+                              onTap: () => const ActivityRoute().go(context),
                             ),
                           ),
                         ),

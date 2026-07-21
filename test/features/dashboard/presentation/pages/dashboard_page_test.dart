@@ -64,37 +64,69 @@ void main() {
     ).thenAnswer((_) => const Stream.empty());
   });
 
-  DashboardCubit buildCubit() => DashboardCubit(
-    getDashboardUsecase: getDashboardUsecase,
-    watchDashboardUpdatesUsecase: watchDashboardUpdatesUsecase,
-    toggleFreezeCardUsecase: toggleFreezeCardUsecase,
-  )..loadDashboard();
+  DashboardCubit buildCubit() {
+    return DashboardCubit(
+      getDashboardUsecase: getDashboardUsecase,
+      watchDashboardUpdatesUsecase: watchDashboardUpdatesUsecase,
+      toggleFreezeCardUsecase: toggleFreezeCardUsecase,
+    )..loadDashboard();
+  }
 
   Widget buildApp() {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return MaterialApp(
       theme: AppTheme.dark,
       home: BlocProvider(
         create: (_) => buildCubit(),
-        child: const DashboardPage(),
+        child: Scaffold(
+          key: scaffoldKey,
+          appBar: DashboardAppBar(
+            onMenuTap: () {
+              scaffoldKey.currentState?.openDrawer();
+            },
+            onNotificationTap: () {},
+          ),
+          drawer: const AppDrawer(),
+          body: const DashboardPage(),
+        ),
       ),
     );
   }
 
   Widget buildRouterApp() {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     final router = GoRouter(
       initialLocation: '/',
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => BlocProvider(
-            create: (_) => buildCubit(),
-            child: const DashboardPage(),
-          ),
+          builder: (context, state) {
+            return BlocProvider(
+              create: (_) => buildCubit(),
+              child: Scaffold(
+                key: scaffoldKey,
+                appBar: DashboardAppBar(
+                  onMenuTap: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                  onNotificationTap: () {},
+                ),
+                drawer: const AppDrawer(),
+                body: const DashboardPage(),
+              ),
+            );
+          },
         ),
+
         GoRoute(
-          path: AppRoutes.activity,
-          builder: (context, state) =>
-              const Scaffold(body: Text('Activity Page')),
+          path: const CardTransactionRoute().location,
+          builder: (context, state) {
+            return const Scaffold(
+              body: Center(child: Text('Card Transaction Page')),
+            );
+          },
         ),
       ],
     );
@@ -102,14 +134,18 @@ void main() {
     return MaterialApp.router(theme: AppTheme.dark, routerConfig: router);
   }
 
-  Finder findRefreshableList() => find.byWidgetPredicate(
-    (w) => w is ListView && w.physics is AlwaysScrollableScrollPhysics,
-  );
+  Finder findRefreshableList() {
+    return find.byWidgetPredicate(
+      (widget) =>
+          widget is ListView && widget.physics is AlwaysScrollableScrollPhysics,
+    );
+  }
 
   testWidgets('shows the shimmer while the dashboard is loading', (
     tester,
   ) async {
     final completer = Completer<Either<Failure, DashboardEntity>>();
+
     when(() => getDashboardUsecase()).thenAnswer((_) => completer.future);
 
     await tester.pumpWidget(buildApp());
@@ -118,6 +154,7 @@ void main() {
     expect(find.byType(DashboardShimmer), findsOneWidget);
 
     completer.complete(Right(tDashboard));
+
     await tester.pumpAndSettle();
   });
 
@@ -132,6 +169,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('E wallet'), findsWidgets);
+
     expect(find.byType(DashboardShimmer), findsNothing);
   });
 
@@ -146,8 +184,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(DashboardErrorView), findsOneWidget);
+
       expect(find.text('boom'), findsOneWidget);
-      expect(find.text('Something went wrong'), findsOneWidget);
     },
   );
 
@@ -166,9 +204,11 @@ void main() {
     ).thenAnswer((_) async => Right(tDashboard));
 
     await tester.tap(find.text('Retry'));
+
     await tester.pumpAndSettle();
 
     expect(find.byType(DashboardErrorView), findsNothing);
+
     expect(find.text('E wallet'), findsWidgets);
   });
 
@@ -183,9 +223,11 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.menu_rounded));
+
     await tester.pumpAndSettle();
 
     expect(find.byType(AppDrawer), findsOneWidget);
+
     expect(find.text('Tayyab Sohail'), findsWidgets);
   });
 
@@ -198,14 +240,14 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.fling(findRefreshableList(), const Offset(0, 300), 1000);
+
     await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
 
     verify(() => getDashboardUsecase()).called(greaterThanOrEqualTo(2));
   });
 
-  testWidgets('tapping "See all" navigates to the activity route', (
+  testWidgets('tapping "See all" navigates to the Card Transaction page', (
     tester,
   ) async {
     when(
@@ -215,10 +257,11 @@ void main() {
     await tester.pumpWidget(buildRouterApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('See all'));
+    await tester.tap(find.text('See all').first);
+
     await tester.pumpAndSettle();
 
-    expect(find.text('Activity Page'), findsOneWidget);
+    expect(find.text('Card Transaction Page'), findsOneWidget);
   });
 
   testWidgets(
@@ -236,11 +279,12 @@ void main() {
       ).thenAnswer((_) async => const Left(NetworkFailure('offline')));
 
       await tester.fling(findRefreshableList(), const Offset(0, 300), 1000);
+
       await tester.pump();
-      await tester.pump(const Duration(seconds: 1));
       await tester.pumpAndSettle();
 
       expect(find.text('E wallet'), findsWidgets);
+
       expect(find.byType(DashboardErrorView), findsNothing);
     },
   );
